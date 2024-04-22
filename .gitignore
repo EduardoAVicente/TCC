@@ -1,0 +1,6 @@
+/bin
+*.class
+.vsconfig
+**/.vscode/
+**/__pycache__/
+*.jar
