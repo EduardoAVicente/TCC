@@ -16,4 +16,4 @@ Prof. Dr. Luciano Rossi
 
 ## **Códigos:**
 
-[1. Leitura do HTML](https://github.com/EduardoAVicente/TCC/tree/main/leituraHTML)
+[1. Leitura do HTML](https://github.com/EduardoAVicente/TCC/tree/main/leituraHTML) - [Documentação](https://github.com/EduardoAVicente/TCC/wiki/1.1.-Leitura-do-HTML)
