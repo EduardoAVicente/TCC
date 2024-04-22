@@ -10,11 +10,11 @@ check_flags() {
         exit
     elif [ "$1" = "-e" ]; then
         compilar
-        java -classpath "$caminho/bin" Main
+        java -classpath "$caminho/bin" HTMLPrinter
         exit
     elif [ -z "$1" ]; then
         compilar
-        java -classpath "$caminho/bin" Main
+        java -classpath "$caminho/bin" HTMLPrinter
         exit
     else
         echo "Flag não reconhecida: $1"

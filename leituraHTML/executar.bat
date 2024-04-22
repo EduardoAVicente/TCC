@@ -12,11 +12,11 @@ if "%~1"=="-c" (
     goto :eof
 ) else if "%~1"=="-e" (
     call :compilar
-    java -classpath "%caminho%\bin" Main
+    java -classpath "%caminho%\bin" HTMLPrinter
     goto :eof
 ) else if "%~1"=="" (
     call :compilar
-    java -classpath "%caminho%\bin" Main
+    java -classpath "%caminho%\bin" HTMLPrinter
     goto :eof
 ) else (
     echo Flag nao reconhecida: %1
