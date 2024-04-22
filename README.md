@@ -4,11 +4,11 @@
 
 ## **Alunos:**
 
-Ana Jéssica Soares da Silva RA: 22.121.100-6
+[Eduardo Antunes Vicente RA: 22.121.010-7](https://github.com/EduardoAVicente)
 
-Eduardo Antunes Vicente RA: 22.121.010-7
+[Ana Jéssica Soares da Silva RA: 22.121.100-6](https://github.com/AnaJessicaSS)
 
-Felipe de Campos Oka RA: 22.121.001-6
+[Felipe de Campos Oka RA: 22.121.001-6](https://github.com/KaburauNero)
 
 ## **Orientador:**
 
