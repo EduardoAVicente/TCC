@@ -1,29 +1,21 @@
 import re
 from scrapper import Scrapper
+from Produto import Produto
 
 class loja:
     def __init__(self, regex=None, xpath=None):
             self.regex = regex
             self.xpath = xpath
+            self.produtos = []
 
     @classmethod
     def from_xpath(cls, xpath):
         return cls(xpath=xpath)
         
+    def addProduto(self, url):
+        self.produtos.append(produto())
+    
+    def atualizaProdutos(self):
+        for produto in self.produtos:
+            produto.getPrice()
 
-    def getPrice(self, url):
-        scrapper = Scrapper(url, self.xpath)
-        price = scrapper.get_element_value().replace("\n", "").replace(",", ".")
-        
-        if(self.regex != None):
-            price = re.sub(repr(self.regex), "", price)
-        
-        if(price.replace(" ","") == "" or price == None):
-            return None
-        else:
-            return price
-        
-    def getPage(self, url):
-        scrapper = Scrapper(url, self.xpath)
-        return scrapper.getPage()
-        
