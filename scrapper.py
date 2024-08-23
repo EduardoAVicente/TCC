@@ -1,31 +1,35 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.options import Options
+from playwright.sync_api import sync_playwright
 
 class Scrapper:
-    def __init__(self, url, xpath):
+    def __init__(self, url, xpath=None):
         self.url = url
         self.xpath = xpath
 
-    # Função para pegar o valor de um elemento a partir de uma URL e um XPath
     def get_element_value(self):
-        # Configurando o WebDriver para rodar em modo headless (sem interface gráfica)
-        options = Options()
-        options.headless = False  # Definindo para True para rodar sem interface gráfica
-        driver = webdriver.Firefox(options=options)
+        with sync_playwright() as p:
+            # Inicie o navegador
+            browser = p.chromium.launch(headless=True)  # O parâmetro headless é equivalente ao --headless no Selenium
+            page = browser.new_page()
+            page.goto(self.url)
+            
+            if self.xpath:
+                # Use o XPath para encontrar o elemento e obter seu valor
+                try:
+                    element = page.locator(f'xpath={self.xpath}')
+                    return element.text_content()
+                except Exception as e:
+                    return str(e)
+            else:
+                return "XPath não fornecido."
+            
+            browser.close()
 
-        try:
-            # Navegar até a URL fornecida
-            driver.get(self.url)
-            driver.implicitly_wait(10)  # Espera implícita de 10 segundos
-
-            # Encontrar o elemento usando o XPath fornecido
-            element = driver.find_element(By.XPATH, self.xpath)
-
-            # Retornar o valor (texto) do elemento encontrado
-            return element.text
-        except Exception as e:
-            return str(e)
-        finally:
-            # Fechar o WebDriver
-            driver.quit()
+    def get_page(self):
+        with sync_playwright() as p:
+            # Inicie o navegador
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            page.goto(self.url)
+            html_content = page.content()
+            browser.close()
+            return html_content
