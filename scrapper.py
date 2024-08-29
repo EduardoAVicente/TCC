@@ -8,14 +8,14 @@ class Scrapper:
     def get_element_value(self):
         with sync_playwright() as p:
             # Inicie o navegador
-            browser = p.chromium.launch(headless=True)  # O parâmetro headless é equivalente ao --headless no Selenium
+            browser = p.chromium.launch(headless=False)
             page = browser.new_page()
             page.goto(self.url)
             
             if self.xpath:
-                # Use o XPath para encontrar o elemento e obter seu valor
                 try:
-                    element = page.locator(f'xpath={self.xpath}')
+                    # Aumentar o tempo de espera para o localizador
+                    element = page.locator(f'xpath={self.xpath}').first
                     return element.text_content()
                 except Exception as e:
                     return str(e)
@@ -24,7 +24,7 @@ class Scrapper:
             
             browser.close()
 
-    def get_page(self):
+    def getPage(self):
         with sync_playwright() as p:
             # Inicie o navegador
             browser = p.chromium.launch(headless=True)
