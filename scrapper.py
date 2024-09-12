@@ -8,7 +8,7 @@ class Scrapper:
     def get_element_value(self):
         with sync_playwright() as p:
             # Inicie o navegador
-            browser = p.chromium.launch(headless=False)
+            browser = p.chromium.launch(headless=True)
             page = browser.new_page()
             page.goto(self.url)
             
