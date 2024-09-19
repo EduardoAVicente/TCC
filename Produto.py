@@ -24,7 +24,6 @@ class Produto:
     def getPrice(self):
         scrapper = Scrapper(self.url, self.xpath)
         price = scrapper.get_element_value()
-                    
         if(self.regex != None):
             print("Preço(String bruta): " + price)
             price = price.replace("\n", "").replace(",", ".")
@@ -44,6 +43,7 @@ class Produto:
                 # Adiconar porduto no database
                 self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, nome) VALUES ('{self.url}', 'none')")
                 self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
+                print("Produto adicionado ao banco de dados")
             print("Preço: " + price)
             return price
         
