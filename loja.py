@@ -3,7 +3,7 @@ import re
 from Produto import Produto
 
 class loja:
-    def __init__(self, regex=None, xpath=None):
+    def __init__(self, regex, xpath):
             self.regex = regex
             self.xpath = xpath
             self.produtos = []
@@ -14,11 +14,11 @@ class loja:
         return cls(xpath=xpath)
         
     def addProduto(self, url):
-        if(self.regex != ""):
+        if(self.regex != None):
             produto = Produto(self.regex,self.xpath,url)
             self.produtos.append(produto)
         else:
-            produto = Produto("",self.xpath,url)
+            produto = Produto(None,self.xpath,url)
             self.produtos.append(produto)
         
         return produto
@@ -26,7 +26,7 @@ class loja:
 
     def atualizaProdutos(self):
         for produto in self.produtos:
-            print(produto.getPrice())
+            produto.getPrice()
             
     
             

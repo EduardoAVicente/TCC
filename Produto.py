@@ -4,15 +4,11 @@ from Database import Database
 from datetime import datetime
 
 class Produto:
-    def __init__(self, regex=None, xpath=None, url=None):
+    def __init__(self, regex, xpath, url):
         self.regex = regex
         self.xpath = xpath
         self.url = url
         self.database = Database("motty.db.elephantsql.com", "5432", "vgdmtvyb", "vgdmtvyb", "qfwL0NkrP8m7jlrNd6fNdSu70n9Y3S0q")
-            
-    @classmethod
-    def from_xpath(cls, xpath, url):
-        return cls(xpath=xpath, url=url)
 
     
     def productExist(self):
@@ -27,14 +23,18 @@ class Produto:
 
     def getPrice(self):
         scrapper = Scrapper(self.url, self.xpath)
-        price = scrapper.get_element_value().replace("\n", "").replace(",", ".")
-        price = re.sub(r'\.(?=.*\.)', '', price)
-        
-                
-
-        
+        price = scrapper.get_element_value()
+                    
+        if(self.regex != None):
+            print("Preço(String bruta): " + price)
+            price = price.replace("\n", "").replace(",", ".")
+            price = re.sub(r'\.(?=.*\.)', '', price)
+            price = re.sub(self.regex, "", price)
+        else:
+            print("Tratamento regex não realizado: " + price)
         
         if(not self.isNumber(price)):
+            print("Preço(entrada invalida): " + price)
             return None
         else:
             if self.productExist() == True:
@@ -44,6 +44,7 @@ class Produto:
                 # Adiconar porduto no database
                 self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, nome) VALUES ('{self.url}', 'none')")
                 self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
+            print("Preço: " + price)
             return price
         
     def getPage(self):

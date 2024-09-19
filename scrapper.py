@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright
 
 class Scrapper:
-    def __init__(self, url, xpath=None):
+    def __init__(self, url, xpath):
         self.url = url
         self.xpath = xpath
 
