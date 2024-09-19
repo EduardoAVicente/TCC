@@ -14,8 +14,13 @@ class loja:
         return cls(xpath=xpath)
         
     def addProduto(self, url):
-        produto = Produto(self.regex,self.xpath,url)
-        self.produtos.append(produto)
+        if(self.regex != ""):
+            produto = Produto(self.regex,self.xpath,url)
+            self.produtos.append(produto)
+        else:
+            produto = Produto("",self.xpath,url)
+            self.produtos.append(produto)
+        
         return produto
         
 
@@ -25,5 +30,3 @@ class loja:
             
     
             
-
-
