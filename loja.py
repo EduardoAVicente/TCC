@@ -40,4 +40,4 @@ class loja:
         filtro = filtro.split('  ')
         filtro = list(filter(None, filtro))
         filtro = [item for item in filtro if any(char.isalpha() for char in item)] # n sei se ta funcionando
-        print(filtro)
+        return filtro
