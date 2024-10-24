@@ -36,8 +36,9 @@ class loja:
     def getFiltros(self, url):
         scrapper = Scrapper(url, self.xpathFiltro)
         filtro = scrapper.get_element_value()
-        filtro = filtro.replace('\n','')
+        filtro = re.sub(r'\(.*?\)', '  ', filtro)
         filtro = filtro.split('  ')
+        # filtro = filtro.replace('\n','')
         filtro = list(filter(None, filtro))
-        filtro = [item for item in filtro if any(char.isalpha() for char in item)] # n sei se ta funcionando
+        filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
         return filtro

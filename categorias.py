@@ -2,6 +2,7 @@ from loja import loja
 #from compare_lists import compare_lists
 from Word2Vec import Word2Vec
 from SpaCy import compare_lists
+from nltk_compare import frases_semelhantes
 import os
 
 amazon = loja(r".*R\$", '//*[@id="corePriceDisplay_desktop_feature_div"]/div[1]','//*[@id="s-refinements"]/div')
@@ -39,8 +40,16 @@ print()
 
 
 
-resultados = compare_lists(amazon_um, amazon_dois)
+# resultados = compare_lists(amazon_um, amazon_dois)
 
-# Exibir resultados
-for (text1, text2), similarity in resultados.items():
-    print(f'Similaridade entre "{text1}" e "{text2}": {similarity:.2f}')
+# # Exibir resultados
+# for (text1, text2), similarity in resultados.items():
+#     print(f'Similaridade entre "{text1}" e "{text2}": {similarity:.2f}')
+
+
+resultado = frases_semelhantes(amazon_um, amazon_dois, threshold=0.6)
+# for frase1, frase2 in resultado:
+#     print(f"Frases semelhantes: \"{frase1}\" e \"{frase2}\"")
+    
+    
+print(resultado)
