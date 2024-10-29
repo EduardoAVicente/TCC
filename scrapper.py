@@ -5,32 +5,36 @@ class Scrapper:
     def __init__(self, url, xpath):
         self.url = url
         self.xpath = xpath
+        self.headless = True
 
     def get_element_value(self):
         max_attempts = 5  # Número máximo de tentativas
         attempt = 0
 
         with sync_playwright() as p:
-            # Inicie o navegador
-            browser = p.chromium.launch(headless=False)
+            # Inicia o navegador
+            browser = p.chromium.launch(headless=self.headless)
             page = browser.new_page()
-            page.goto(self.url)
+            # Garante que a página seja totalmente carregada antes de buscar o elemento
+            page.goto(self.url, wait_until="load")
             
             if self.xpath:
                 while attempt < max_attempts:
                     try:
                         # Tenta localizar o elemento
                         element = page.locator(f'xpath={self.xpath}').first
-                        # Verifica se o conteúdo do texto foi encontrado
+                        # Aguarda até que o conteúdo do texto seja acessível
                         text_content = element.text_content(timeout=5000)
                         if text_content:
                             return text_content
                     except Exception as e:
                         # Caso a tentativa falhe, incrementa o contador e espera 2 segundos
                         attempt += 1
-                        print(f"Tentativa {attempt} falhou. Dando refresh e tentando novamente...")
+                        if not self.headless:
+                            print(f"Tentativa {attempt} falhou. Dando refresh e tentando novamente...")
                         time.sleep(2)
-                        page.reload()  # Atualiza a página antes de tentar novamente
+                        # Recarrega a página e espera que seja totalmente carregada novamente
+                        page.reload(wait_until="load")
                 
                 return f"Elemento não encontrado após {max_attempts} tentativas."
             else:
@@ -40,10 +44,11 @@ class Scrapper:
 
     def getPage(self):
         with sync_playwright() as p:
-            # Inicie o navegador
+            # Inicia o navegador
             browser = p.chromium.launch(headless=True)
             page = browser.new_page()
-            page.goto(self.url)
+            # Garante que a página seja totalmente carregada antes de buscar o conteúdo HTML
+            page.goto(self.url, wait_until="load")
             html_content = page.content()
             browser.close()
             return html_content

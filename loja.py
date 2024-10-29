@@ -42,3 +42,4 @@ class loja:
         filtro = list(filter(None, filtro))
         filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
         return filtro
+    
