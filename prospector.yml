@@ -1,0 +1,21 @@
+# .prospector.yml
+
+strictness: veryhigh  # Define um nível de rigor elevado
+output-format: grouped  # Organiza a saída por tipo de problema
+
+# Ativando todas as verificações
+tools:
+  - pylint
+  - pyflakes
+  - mccabe  # Verifica complexidade de código
+  - dodgy   # Verifica padrões problemáticos
+  - pep8    # Confere PEP8
+
+pylint:
+  disable:
+    - C0114  # Desabilita verificação de docstrings para módulos
+    - C0116  # Desabilita verificação de docstrings para funções
+
+mccabe:
+  max-complexity: 5  # Define um limite de complexidade mais rigoroso
+
