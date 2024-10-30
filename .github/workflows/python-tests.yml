@@ -20,7 +20,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt --no-deps
         python -m spacy download pt_core_news_lg  # Baixar o modelo de língua portuguesa
-        python -m nltk.downloader punkt
+        python -m nltk.downloader punkt_tab
         
     - name: Run tests
       run: |
