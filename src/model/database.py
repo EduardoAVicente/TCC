@@ -1,6 +1,6 @@
 import psycopg2
 
-from model.produto import Produto
+# from model.produto import Produto
 
 class Database:
     def __init__(self):
