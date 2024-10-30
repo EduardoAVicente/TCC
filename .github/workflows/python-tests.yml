@@ -18,8 +18,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Instalar dependências do projeto
-
+        pip install -r requirements.txt --no-deps
+        python -m spacy download pt_core_news_lg  # Baixar o modelo de língua portuguesa
+        
     - name: Run tests
       run: |
         pytest  # Executar os testes com pytest
