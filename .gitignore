@@ -3,6 +3,5 @@
 .vsconfig
 **/.vscode/
 **/__pycache__/
-*.jar
-*.html
 /venv
+.pytest_cache
