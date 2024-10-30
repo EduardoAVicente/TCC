@@ -1,4 +1,4 @@
-name: Python Tests
+name: Python Tests and Code Quality
 
 on: [push, pull_request]  # Acionar o workflow em push e pull request
 
@@ -21,7 +21,29 @@ jobs:
         pip install -r requirements.txt --no-deps
         python -m spacy download pt_core_news_lg  # Baixar o modelo de língua portuguesa
         python -m nltk.downloader punkt_tab
-        
+
     - name: Run tests
       run: |
         pytest  # Executar os testes com pytest
+
+  code_quality:
+    runs-on: ubuntu-latest  # Sistema operacional a ser usado
+    needs: test  # Executar somente após o job de testes ter sido concluído
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Baixar o código do repositório
+
+    - name: Set up Python
+      uses: actions/setup-python@v2  # Configurar a versão do Python
+      with:
+        python-version: '3.12.4'  # Especifique a versão do Python desejada
+
+    - name: Install prospector
+      run: |
+        python -m pip install --upgrade pip
+        pip install prospector  # Instalar o prospector
+
+    - name: Run prospector for code quality analysis
+      run: |
+        prospector  # Executar análise de qualidade de código com prospector
