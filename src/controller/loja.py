@@ -1,5 +1,6 @@
 from controller.produto import ProdutoController
-
+from controller.scrapper import ScrapperController
+import re
 class LojaController:
     def __init__(self, regex=None, xpathProduto=None, xpathFiltro=None):
         self.regex = regex
@@ -19,7 +20,7 @@ class LojaController:
         return all(char.isalnum() or char.isspace() for char in item)
 
     def getFiltros(self, url):
-        scrapper = Scrapper(url, self.xpathFiltro)
+        scrapper = ScrapperController(url, self.xpathFiltro)
         filtro = scrapper.get_element_value()
         filtro = re.sub(r'\(.*?\)', '  ', filtro)
         filtro = filtro.split('  ')
