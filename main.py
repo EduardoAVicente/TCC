@@ -11,7 +11,8 @@ if __name__ == "__main__":
             case "monitoracao":
                 Monitoracao.main()
             case "nlp":
-                AvaliacaoNLP.main()
+                avaliacao = AvaliacaoNLP()
+                avaliacao.main()
             case "auxiliar":
                 Auxiliar.main()
             case _:

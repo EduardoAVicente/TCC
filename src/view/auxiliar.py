@@ -52,13 +52,17 @@ class Auxiliar:
         
         # Shopee
         
-        loja = LojaController(r".*R\$",'', '//*[@id="__next"]/div/main/section[3]/div')
+        # loja = LojaController(r".*R\$",'', '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]')
         
-        categoria1 = loja.getFiltros('https://www.magazineluiza.com.br/busca/torradeira/?from=submit')
+        # categoria1 = loja.getFiltros('https://www.drogasil.com.br/search?w=hidratante')
         
-        # categoria2 = loja.getFiltros('https://www.pichau.com.br/perifericos/teclado')
+        # loja = LojaController(r".*R\$",'', '//*[@id="inicio-conteudo"]/div[5]/div/div[2]/aside/div[2]')
+        
+        # categoria2 = loja.getFiltros('https://www.drogariasaopaulo.com.br/pesquisa?q=hidratante')
 
-        print(categoria1)
-        print()
+        # print(categoria1)
+        # print()
         # print(categoria2)
         # print()
+        
+        pass
