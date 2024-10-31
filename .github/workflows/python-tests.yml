@@ -56,3 +56,26 @@ jobs:
           exit 1  # Retorna erro se falha na execução
         fi
       continue-on-error: true  # Continua mesmo se o prospector retornar melhorias
+
+  nlp:
+    runs-on: ubuntu-latest  # Sistema operacional a ser usado
+    needs: []  # Este job não depende de nenhum outro job
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Baixar o código do repositório
+
+    - name: Set up Python
+      uses: actions/setup-python@v2  # Configurar a versão do Python
+      with:
+        python-version: '3.12.4'  # Especifique a versão do Python desejada
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt --no-deps
+        python -m spacy download pt_core_news_lg  # Baixar o modelo de língua portuguesa
+        python -m nltk.downloader punkt_tab
+
+    - name: Run NLP script
+      run: python main.py nlp  # Executar o comando desejado
