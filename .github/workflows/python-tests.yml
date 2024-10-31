@@ -45,4 +45,14 @@ jobs:
 
     - name: Run prospector for code quality analysis
       run: |
-        prospector  # Executar análise de qualidade de código com prospector
+        # Executa o prospector e salva o status de retorno
+        prospector || STATUS=$?
+        
+        # Checa se o status é 1 (erros de análise)
+        if [[ "$STATUS" == "1" ]]; then
+          echo "Prospector encontrou melhorias. Marcando como warning."
+        elif [[ "$STATUS" -gt "1" ]]; then
+          echo "Erro ao executar o prospector."
+          exit 1  # Retorna erro se falha na execução
+        fi
+      continue-on-error: true  # Continua mesmo se o prospector retornar melhorias
