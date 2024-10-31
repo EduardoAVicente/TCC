@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt --no-deps
+        pip install -r requirements.txt --no-deps --ignore-requires-python
         python -m spacy download pt_core_news_lg  # Baixar o modelo de língua portuguesa
         python -m nltk.downloader punkt_tab
 
@@ -73,7 +73,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt --no-deps
+        pip install -r requirements.txt --no-deps --ignore-requires-python
         python -m spacy download pt_core_news_lg  # Baixar o modelo de língua portuguesa
         python -m nltk.downloader punkt_tab
 
