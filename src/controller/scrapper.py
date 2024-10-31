@@ -36,9 +36,9 @@ class ScrapperController:
                         # Recarrega a página e espera que seja totalmente carregada novamente
                         page.reload(wait_until="load")
                 
-                return f"Elemento não encontrado após {max_attempts} tentativas."
+                return None
             else:
-                return "XPath não fornecido."
+                raise ValueError("XPath não fornecido.")
             
             browser.close()
 
