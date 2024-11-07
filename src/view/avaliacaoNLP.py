@@ -11,14 +11,18 @@ class AvaliacaoNLP:
     def main(self):    
         algoritmos = [
             ("Compare Lists", compare_lists),
-            ("Similaridade NLTK", similaridadeNLTK),
-            ("Smith-Waterman", smith_waterman),
-            ("SpaCy", compare_lists_spacy),
-            ("Word2Vec", Word2Vec)
+            # ("Similaridade NLTK", similaridadeNLTK),
+            # ("Smith-Waterman", smith_waterman),
+            # ("SpaCy", compare_lists_spacy),
+            # ("Word2Vec", Word2Vec)
         ]
         
         avaliacaoNLP = avaliacaoNLPController(algoritmos)
         print(avaliacaoNLP.main())
+        print(avaliacaoNLP.getAcuracia())
+        print(avaliacaoNLP.getRecall())
+        print(avaliacaoNLP.getPrecisao())
+        print(avaliacaoNLP.getF1Score())
 
 
     def gerar_grafico(self, resultados, tempos, num_testes, algoritmos):

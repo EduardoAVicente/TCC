@@ -63,10 +63,10 @@ class avaliacaoNLPController:
         esperado_normalizado = {item.strip().lower() for item in esperado}
         
         # Cálculo de FP, FN, VP, VN
-        VP = len(resultado_normalizado.intersection(esperado_normalizado))
-        FP = len(resultado_normalizado - esperado_normalizado)
-        FN = len(esperado_normalizado - resultado_normalizado)
-        VN = 0  # Para NLP, o VN pode ser complexa; depende do contexto dos dados
+        self.VP = len(resultado_normalizado.intersection(esperado_normalizado))
+        self.FP = len(resultado_normalizado - esperado_normalizado)
+        self.FN = len(esperado_normalizado - resultado_normalizado)
+        self.VN = 0  # Para NLP, o VN pode ser complexa; depende do contexto dos dados
 
         self.resultados_avaliacao["VP"][algoritmo_nome] += VP
         self.resultados_avaliacao["FP"][algoritmo_nome] += FP
@@ -92,3 +92,23 @@ class avaliacaoNLPController:
 
         grau_semelhanca = (len(interseccao) / len(uniao) * 100) if uniao else 0
         return round(grau_semelhanca, 2)
+
+    def getAcuracia(self):
+        vp_fn_ratio = (self.VP / (self.VP + self.FN) * 100) if (self.VP + self.FN) != 0 else 0
+        vn_fp_ratio = (self.VN / (self.VN + self.FP) * 100) if (self.VN + self.FP) != 0 else 0
+        acuracia = 0.5 * (vp_fn_ratio + vn_fp_ratio)
+        return round(acuracia, 2)
+
+    def getPrecisao(self):
+        precisao = (self.VP / (self.VP + self.FP) * 100) if (self.VP + self.FP) != 0 else 0
+        return round(precisao, 2)
+
+    def getRecall(self):
+        recall = (self.VP / (self.VP + self.FN) * 100) if (self.VP + self.FN) != 0 else 0
+        return round(recall, 2)
+
+    def getF1Score(self):
+        precisao = self.getPrecisao() / 100  # Convertendo para proporção
+        recall = self.getRecall() / 100      # Convertendo para proporção
+        f1_score = (2 * precisao * recall) / (precisao + recall) if (precisao + recall) != 0 else 0
+        return round(f1_score * 100, 2)  # Convertendo para porcentagem e arredondando
