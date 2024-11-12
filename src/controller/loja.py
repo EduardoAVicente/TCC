@@ -3,8 +3,8 @@ from controller.scrapper import ScrapperController
 import re
 
 class LojaController:
-    def __init__(self, regex=None, xpathProduto=None, xpathFiltro=None):
-        self.regex = regex
+    def __init__(self, regexProduto=None, xpathProduto=None, xpathFiltro=None):
+        self.regexProduto = regexProduto
         self.xpathProduto = xpathProduto
         self.xpathFiltro = xpathFiltro
         self.produtos = []
@@ -37,8 +37,8 @@ class LojaController:
 
     
     def addProduto(self, url):
-        if(self.regex != None):
-            produto = ProdutoController(self.regex, self.xpathProduto, url)
+        if(self.regexProduto != None):
+            produto = ProdutoController(self.regexProduto, self.xpathProduto, url)
             self.produtos.append(produto)
         else:
             produto = ProdutoController(None, self.xpathProduto, url)
