@@ -3,9 +3,10 @@ import sys
 from src.view.monitoracao import Monitoracao
 from src.view.avaliacaoNLP import AvaliacaoNLP
 from src.view.auxiliar import Auxiliar
-from src.view.main import Main
+from src.view.menu import Menu
 
 if __name__ == "__main__":
+    print(len(sys.argv))
     if len(sys.argv) > 1:
         palavra = sys.argv[1].lower()
         match palavra:
@@ -18,7 +19,7 @@ if __name__ == "__main__":
                 Auxiliar.main()
             case _:
                 print("Função invalida")
-    elif len(sys.argv) == 0:
-        Main.main()
+    elif len(sys.argv) == 1:
+        Menu.main()
     else:
         print("Função invalida")
