@@ -37,14 +37,16 @@ class ScrapperController:
                     if not self.headless:
                         print(f"Tentativa {attempt} falhou devido ao timeout. Tentando novamente...")
                     time.sleep(2)  # Espera 2 segundos antes de tentar novamente
-                    page.reload(wait_until="load")
+                    page.reload(wait_until="domcontentloaded", timeout=60000)
+
                 
                 except Exception as e:
                     attempt += 1
                     if not self.headless:
                         print(f"Tentativa {attempt} falhou com erro: {e}. Tentando novamente...")
                     time.sleep(2)
-                    page.reload(wait_until="load")
+                    page.reload(wait_until="domcontentloaded", timeout=60000)
+
 
             # Fecha o navegador se não encontrou o elemento após todas as tentativas
             browser.close()

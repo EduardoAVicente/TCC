@@ -25,7 +25,7 @@ class ProdutoController:
         price = scrapper.get_element_value()
         if price:
             if(self.regex != None):
-                print("Preço(String bruta): " + price)
+                # print("Preço(String bruta): " + price)
                 price = price.replace("\n", "").replace(",", ".")
                 price = re.sub(r'\.(?=.*\.)', '', price)
                 price = re.sub(self.regex, "", price)
@@ -44,8 +44,8 @@ class ProdutoController:
                     # Adiconar porduto no database
                     self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, name, site) VALUES ('{self.url}', '{Produto().getName(self.url)}', '{Produto().getSite(self.url)}');")
                     self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
-                    print("Produto adicionado ao banco de dados")
-                print("Preço: " + price)
+                    # print("Produto adicionado ao banco de dados")
+                # print("Preço: " + price)
                 return price
         else:
             return None
