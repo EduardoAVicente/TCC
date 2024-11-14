@@ -1,11 +1,12 @@
 from playwright.sync_api import sync_playwright
 import time
+from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 
 class ScrapperController:
     def __init__(self, url, xpath):
         self.url = url
         self.xpath = xpath
-        self.headless = False
+        self.headless = True
 
     def get_element_value(self):
         max_attempts = 5  # Número máximo de tentativas
@@ -15,32 +16,39 @@ class ScrapperController:
             # Inicia o navegador
             browser = p.chromium.launch(headless=self.headless)
             page = browser.new_page()
-            # Garante que a página seja totalmente carregada antes de buscar o elemento
-            page.goto(self.url, wait_until="load")
-            
-            if self.xpath:
-                while attempt < max_attempts:
-                    try:
+
+            while attempt < max_attempts:
+                try:
+                    # Tenta carregar a página e espera até que ela esteja totalmente carregada
+                    page.goto(self.url, wait_until="load")
+                    
+                    if self.xpath:
                         # Tenta localizar o elemento
                         element = page.locator(f'xpath={self.xpath}').first
                         # Aguarda até que o conteúdo do texto seja acessível
                         text_content = element.text_content(timeout=5000)
                         if text_content:
                             return text_content
-                    except Exception as e:
-                        # Caso a tentativa falhe, incrementa o contador e espera 2 segundos
-                        attempt += 1
-                        if not self.headless:
-                            print(f"Tentativa {attempt} falhou. Dando refresh e tentando novamente...")
-                        time.sleep(2)
-                        # Recarrega a página e espera que seja totalmente carregada novamente
-                        page.reload(wait_until="load")
+                    else:
+                        raise ValueError("XPath não fornecido.")
                 
-                return None
-            else:
-                raise ValueError("XPath não fornecido.")
-            
+                except PlaywrightTimeoutError:
+                    attempt += 1
+                    if not self.headless:
+                        print(f"Tentativa {attempt} falhou devido ao timeout. Tentando novamente...")
+                    time.sleep(2)  # Espera 2 segundos antes de tentar novamente
+                    page.reload(wait_until="load")
+                
+                except Exception as e:
+                    attempt += 1
+                    if not self.headless:
+                        print(f"Tentativa {attempt} falhou com erro: {e}. Tentando novamente...")
+                    time.sleep(2)
+                    page.reload(wait_until="load")
+
+            # Fecha o navegador se não encontrou o elemento após todas as tentativas
             browser.close()
+            return None  # Retorna None se todas as tentativas falharem
 
     def getPage(self):
         with sync_playwright() as p:

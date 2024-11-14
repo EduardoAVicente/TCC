@@ -1,5 +1,6 @@
 from controller.produto import ProdutoController
 from controller.scrapper import ScrapperController
+from controller.database import DatabaseController
 import re
 
 class LojaController:
@@ -33,9 +34,6 @@ class LojaController:
         filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
         return filtro
     
-
-
-    
     def addProduto(self, url):
         if(self.regexProduto != None):
             produto = ProdutoController(self.regexProduto, self.xpathProduto, url)
@@ -45,3 +43,5 @@ class LojaController:
             self.produtos.append(produto)
         
         return produto
+
+ 

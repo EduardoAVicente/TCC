@@ -1,8 +1,10 @@
 from controller.database import DatabaseController
+from src.model.produto import Produto
 
-def ver_monitoracao(Produto):
+
+def ver_monitoracao(ProdutoEntrada):
     database = DatabaseController()
-    monitoria = database.sqlRead(f"SELECT * FROM public.monitoria where url = '{Produto[1]}';")
+    monitoria = database.sqlRead(f"SELECT * FROM public.monitoria where url = '{ProdutoEntrada[1]}';")
     
     if monitoria != None:
         i = 1
@@ -14,6 +16,7 @@ def ver_monitoracao(Produto):
             print(f"Freqüência(min): {monitor['minuto']}")
             print()
             i+=1
+    Produto().gerarGraficoPreco(ProdutoEntrada)
 
     while True:
         deletar = input("Deseja deletar alguma monitoria(S/N): ").lower()

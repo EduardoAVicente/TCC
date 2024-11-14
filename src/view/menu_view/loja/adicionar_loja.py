@@ -19,7 +19,11 @@ def adicionar_loja():
     xpath_pesquisa = input("Digite o XPATHPESQUISA (opcional): ") or "Null"
     xpath_botao_pesquisa = input("Digite o XPATHBOTAOPESQUISA (opcional): ") or "Null"
 
-    DatabaseController().sqlWrite(f"INSERT INTO public.loja (site, regexproduto, xpathproduto, xpathfiltro, xpathpesquisa, xpathbotaopesquisa) VALUES('{gerarNomeSite(site)}', '{regex_produto}', '{xpath_produto}', '{xpath_filtro}', '{xpath_pesquisa}', '{xpath_botao_pesquisa}');")
+    DatabaseController().sqlWrite(
+        f"INSERT INTO public.loja (site, regexproduto, xpathproduto, xpathfiltro, xpathpesquisa, xpathbotaopesquisa) "
+        f"VALUES('{gerarNomeSite(site)}', {format_sql_value(regex_produto)}, {format_sql_value(xpath_produto)}, "
+        f"{format_sql_value(xpath_filtro)}, {format_sql_value(xpath_pesquisa)}, {format_sql_value(xpath_botao_pesquisa)});"
+)
 
 def validar_url(url):
     pattern = re.compile(
@@ -39,3 +43,6 @@ def gerarNomeSite(url):
         nome_site = match.group(1).lower()  # Acessa o primeiro grupo e converte para minúsculas
         return nome_site
     return None
+
+def format_sql_value(value):
+        return "Null" if value == "Null" else f"'{value}'"

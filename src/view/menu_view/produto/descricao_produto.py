@@ -1,4 +1,3 @@
-from model.produto import Produto
 from controller.database import DatabaseController
 from view.menu_view.monitoracao.ver_monitoracao import ver_monitoracao
 from view.menu_view.monitoracao.adicionar_monitoracao import adicionar_monitoracao
@@ -14,14 +13,14 @@ def descricao_produto(produto):
     ver_monitoracao(produto)
     
     
-    Produto().gerarGraficoPreco(produto)
+    
     
 
 
     while True:
         deletar = input("Deseja deletar este item(S/N): ").lower()
         if deletar == "s":
-            DatabaseController().sqlWrite(f"DELETE FROM public.loja WHERE site='{produto[0]}';")
+            DatabaseController().sqlWrite(f"DELETE FROM public.product WHERE site='{produto[0]}';")
             break
         elif deletar == "n":
             while True:

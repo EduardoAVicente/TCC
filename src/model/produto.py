@@ -71,3 +71,17 @@ class Produto:
         
         # Exibindo o gráfico
         plt.show()
+        
+    def getSite(self,LINK):
+        site = DatabaseController().sqlRead(f"Select site from product where url = '{LINK}'")
+        if site:
+            return site[0]['site']
+        else:
+            return None
+        
+    def getName(self,LINK):
+        name = DatabaseController().sqlRead(f"Select name from product where url = '{LINK}'")
+        if name:
+            return name[0]['name']
+        else:
+            return None        

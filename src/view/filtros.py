@@ -6,7 +6,7 @@ sys.path.append(str(root))
 
 from controller.loja import LojaController
 
-class Auxiliar:
+class Filtros:
     def main():
         
         # Amazon
@@ -24,33 +24,33 @@ class Auxiliar:
         
         # Mercado livre
         
-        # loja = LojaController(r".*R\$",'', '//*[@id="root-app"]/div/div[3]/aside/section[2]')
+        loja = LojaController(r".*R\$",'', '//*[@id="root-app"]/div/div[3]/aside/section[2]')
         
-        # categoria1 = loja.getFiltros('https://lista.mercadolivre.com.br/celular#D[A:celular]')
+        categoria1 = loja.getFiltros('https://lista.mercadolivre.com.br/celular#D[A:celular]')
         
-        # categoria2 = loja.getFiltros('https://lista.mercadolivre.com.br/nootebook#D[A:nootebook]')
+        categoria2 = loja.getFiltros('https://lista.mercadolivre.com.br/nootebook#D[A:nootebook]')
 
-        # print(categoria1)
-        # print()
-        # print(categoria2)
-        # print()
+        print(categoria1)
+        print()
+        print(categoria2)
+        print()
         
         
-        # Kabum
+        # Pichau
         
-        # loja = LojaController(r".*R\$",'', '//*[@id="__next"]/div[1]/main/div[2]/div/div[2]')
+        loja = LojaController(r".*R\$",'', '//*[@id="__next"]/div[1]/main/div[2]/div/div[2]')
         
-        # categoria1 = loja.getFiltros('https://www.pichau.com.br/hardware/placa-de-video')
+        categoria1 = loja.getFiltros('https://www.pichau.com.br/hardware/placa-de-video')
         
-        # categoria2 = loja.getFiltros('https://www.pichau.com.br/perifericos/teclado')
+        categoria2 = loja.getFiltros('https://www.pichau.com.br/perifericos/teclado')
 
-        # print(categoria1)
-        # print()
-        # print(categoria2)
-        # print()
+        print(categoria1)
+        print()
+        print(categoria2)
+        print()
         
         
-        ## Shopee
+        ## Farmacias
         
         loja = LojaController(r".*R\$",'', '//*[@id="__next"]/main/div/div[3]/div/div[1]/div[1]')
         
@@ -65,4 +65,3 @@ class Auxiliar:
         print(categoria2)
         print()
         
-        pass

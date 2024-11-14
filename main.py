@@ -2,8 +2,16 @@
 import sys
 from src.view.monitoracao import Monitoracao
 from src.view.avaliacaoNLP import AvaliacaoNLP
-from src.view.auxiliar import Auxiliar
+from src.view.filtros import Filtros
 from src.view.menu import Menu
+from src.controller.monitoracao import MonitoracaoController
+import time
+
+
+
+
+# MonitoracaoController().main()
+# time.sleep(5)
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -15,7 +23,7 @@ if __name__ == "__main__":
                 avaliacao = AvaliacaoNLP()
                 avaliacao.main()
             case "auxiliar":
-                Auxiliar.main()
+                Filtros.main()
             case _:
                 print("Função invalida")
     elif len(sys.argv) == 1:

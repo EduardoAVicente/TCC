@@ -1,5 +1,6 @@
 from controller.database import DatabaseController
 from controller.scrapper import ScrapperController
+from model.produto import Produto
 from datetime import datetime
 import re
 
@@ -22,31 +23,35 @@ class ProdutoController:
     def getPrice(self):
         scrapper = ScrapperController(self.url, self.xpath)
         price = scrapper.get_element_value()
-        if(self.regex != None):
-            print("Preço(String bruta): " + price)
-            price = price.replace("\n", "").replace(",", ".")
-            price = re.sub(r'\.(?=.*\.)', '', price)
-            price = re.sub(self.regex, "", price)
-        else:
-            print("Tratamento regex não realizado: " + price)
-        
-        if(not self.isNumber(price)):
-            print("Preço(entrada invalida): " + price)
-            return None
-        else:
-            if self.productExist() == True:
-                self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
-
+        if price:
+            if(self.regex != None):
+                print("Preço(String bruta): " + price)
+                price = price.replace("\n", "").replace(",", ".")
+                price = re.sub(r'\.(?=.*\.)', '', price)
+                price = re.sub(self.regex, "", price)
             else:
-                # Adiconar porduto no database
-                self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, nome) VALUES ('{self.url}', 'none')")
-                self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
-                print("Produto adicionado ao banco de dados")
-            print("Preço: " + price)
-            return price
+                # print("Tratamento regex não realizado: " + price)
+                pass
+            
+            if(not self.isNumber(price)):
+                # print("Preço(entrada invalida): " + price)
+                return None
+            else:
+                if self.productExist() == True:
+                    self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
+
+                else:
+                    # Adiconar porduto no database
+                    self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, name, site) VALUES ('{self.url}', '{Produto().getName(self.url)}', '{Produto().getSite(self.url)}');")
+                    self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
+                    print("Produto adicionado ao banco de dados")
+                print("Preço: " + price)
+                return price
+        else:
+            return None
     
     def getPage(self):
-        scrapper = Scrapper(self.url, self.xpath)
+        scrapper = ScrapperController(self.url, self.xpath)
         return scrapper.getPage()
     
     def isNumber(self, numero):

@@ -4,7 +4,9 @@ file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 sys.path.append(str(root))
 
-
+from controller.database import DatabaseController
+from model.produto import Produto
+from model.loja import Loja
 from controller.loja import LojaController
 
 class Monitoracao:
@@ -20,13 +22,13 @@ class Monitoracao:
 
 
 
-        # mercadolivre = LojaController(r"R\$", '//*[@id="price"]/div/div[1]/div[1]/span/span')
+        mercadolivre = LojaController(r"R\$", '//*[@id="price"]/div/div[1]/div[1]/span/span')
 
-        # mercadolivre.addProduto('https://produto.mercadolivre.com.br/MLB-4808560368-mouse-gamer-dpi-3600-transparente-led-6-botoes-tiger-chroma-_JM#polycard_client=recommendations_pdp-pads-up&reco_backend=recos-merge-experimental-pdp-up-c_marketplace&reco_client=pdp-pads-up&reco_item_pos=1&reco_backend_type=low_level&reco_id=3fab6d28-d129-4140-8afb-1bbf753b6cf0&is_advertising=true&ad_domain=PDPDESKTOP_UP&ad_position=2&ad_click_id=M2NmM2VjNmUtNTEyZC00MTcyLTg4OGUtODdjNWRkN2UzZDU2')
+        mercadolivre.addProduto('https://produto.mercadolivre.com.br/MLB-4808560368-mouse-gamer-dpi-3600-transparente-led-6-botoes-tiger-chroma-_JM#polycard_client=recommendations_pdp-pads-up&reco_backend=recos-merge-experimental-pdp-up-c_marketplace&reco_client=pdp-pads-up&reco_item_pos=1&reco_backend_type=low_level&reco_id=3fab6d28-d129-4140-8afb-1bbf753b6cf0&is_advertising=true&ad_domain=PDPDESKTOP_UP&ad_position=2&ad_click_id=M2NmM2VjNmUtNTEyZC00MTcyLTg4OGUtODdjNWRkN2UzZDU2')
 
-        # mercadolivre.addProduto("https://produto.mercadolivre.com.br/MLB-3732772695-mouse-gamer-optico-rgb-magegee-6-nivel-dpi-7-botoes-g10-_JM#polycard_client=recommendations_vip-pads-up&reco_backend=vip_pads_up_ranker_retrieval_system_ctr_odin_marketplace&reco_client=vip-pads-up&reco_item_pos=2&reco_backend_type=low_level&reco_id=b310e075-efc7-46be-b9d6-0b68b9281f04&is_advertising=true&ad_domain=VIPDESKTOP_UP&ad_position=3&ad_click_id=YWI3N2JmOTAtZDc4OS00M2Y2LWEzNTMtZGU4MTdmODYwNTgz")
+        mercadolivre.addProduto("https://produto.mercadolivre.com.br/MLB-3732772695-mouse-gamer-optico-rgb-magegee-6-nivel-dpi-7-botoes-g10-_JM#polycard_client=recommendations_vip-pads-up&reco_backend=vip_pads_up_ranker_retrieval_system_ctr_odin_marketplace&reco_client=vip-pads-up&reco_item_pos=2&reco_backend_type=low_level&reco_id=b310e075-efc7-46be-b9d6-0b68b9281f04&is_advertising=true&ad_domain=VIPDESKTOP_UP&ad_position=3&ad_click_id=YWI3N2JmOTAtZDc4OS00M2Y2LWEzNTMtZGU4MTdmODYwNTgz")
 
-        # mercadolivre.atualizaProdutos()
+        mercadolivre.atualizaProdutos()
 
 
 
@@ -43,4 +45,24 @@ class Monitoracao:
         # kabum.addProduto('https://www.kabum.com.br/produto/520369/processador-amd-ryzen-7-5700x3d-3-6-ghz-4-1ghz-max-turbo-cache-4mb-8-nucleos-16-threads-am4-100-100001503wof')
 
         # kabum.atualizaProdutos()  
+        
+        # produto = Produto()
+        
+        # print(produto.getName("https://www.amazon.com.br/Teclado-Nanoreceptor-Inclusas-Logitech-Teclados/dp/B07643MPGS/ref=pd_bxgy_d_sccl_1/141-0794179-5287360?pd_rd_w=Wcuuq&content-id=amzn1.sym.24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_p=24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_r=RD1E7VEWPTWV261W520Z&pd_rd_wg=1wayP&pd_rd_r=ff1c10ea-955c-4fb7-a107-0683e53e74d2&pd_rd_i=B07643MPGS&psc=1"))
+        # print(produto.getSite('https://www.amazon.com.br/Teclado-Nanoreceptor-Inclusas-Logitech-Teclados/dp/B07643MPGS/ref=pd_bxgy_d_sccl_1/141-0794179-5287360?pd_rd_w=Wcuuq&content-id=amzn1.sym.24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_p=24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_r=RD1E7VEWPTWV261W520Z&pd_rd_wg=1wayP&pd_rd_r=ff1c10ea-955c-4fb7-a107-0683e53e74d2&pd_rd_i=B07643MPGS&psc=1'))
+        
+        # loja = Loja()
+        
+        # print(loja.getXpathProduto("https://www.amazon.com.br/Teclado-Nanoreceptor-Inclusas-Logitech-Teclados/dp/B07643MPGS/ref=pd_bxgy_d_sccl_1/141-0794179-5287360?pd_rd_w=Wcuuq&content-id=amzn1.sym.24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_p=24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_r=RD1E7VEWPTWV261W520Z&pd_rd_wg=1wayP&pd_rd_r=ff1c10ea-955c-4fb7-a107-0683e53e74d2&pd_rd_i=B07643MPGS&psc=1"))
+        # print(loja.getXpathFiltro("https://www.amazon.com.br/Teclado-Nanoreceptor-Inclusas-Logitech-Teclados/dp/B07643MPGS/ref=pd_bxgy_d_sccl_1/141-0794179-5287360?pd_rd_w=Wcuuq&content-id=amzn1.sym.24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_p=24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_r=RD1E7VEWPTWV261W520Z&pd_rd_wg=1wayP&pd_rd_r=ff1c10ea-955c-4fb7-a107-0683e53e74d2&pd_rd_i=B07643MPGS&psc=1"))
+        # print(loja.getXpathPesquisa("https://www.amazon.com.br/Teclado-Nanoreceptor-Inclusas-Logitech-Teclados/dp/B07643MPGS/ref=pd_bxgy_d_sccl_1/141-0794179-5287360?pd_rd_w=Wcuuq&content-id=amzn1.sym.24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_p=24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_r=RD1E7VEWPTWV261W520Z&pd_rd_wg=1wayP&pd_rd_r=ff1c10ea-955c-4fb7-a107-0683e53e74d2&pd_rd_i=B07643MPGS&psc=1"))
+        # print(loja.getXpathBotaoPesquisa("https://www.amazon.com.br/Teclado-Nanoreceptor-Inclusas-Logitech-Teclados/dp/B07643MPGS/ref=pd_bxgy_d_sccl_1/141-0794179-5287360?pd_rd_w=Wcuuq&content-id=amzn1.sym.24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_p=24c12540-16c9-4f25-a9fc-1d03ac7f6922&pf_rd_r=RD1E7VEWPTWV261W520Z&pd_rd_wg=1wayP&pd_rd_r=ff1c10ea-955c-4fb7-a107-0683e53e74d2&pd_rd_i=B07643MPGS&psc=1"))
         pass
+    
+        db_controller = DatabaseController()  # Crie a instância
+        data = db_controller.sqlRead(f"select regexproduto, xpathproduto, url from product p join loja l on l.site = p.site where regexproduto is not null and xpathproduto is not null;")
+
+        for d in data:
+            loja = LojaController(d['regexproduto'], d['xpathproduto'])
+            loja.addProduto(d['url'])
+            loja.atualizaProdutos()
