@@ -1,5 +1,35 @@
-class Menu():
+from src.view.menu_view.produto.ver_produtos import ver_produtos
+from src.view.menu_view.loja.ver_lojas import ver_lojas
+import os; 
+
+
+class Menu:
     def main():
-        print('###############  Monitor de preços ###############')
-        print("1. Ver monitorações")
-        print("2. Pesquisar produtos")
+        os.system('cls' if os.name == 'nt' else 'clear')
+        while True:
+            print("########## Monitor de preços ##########")
+            print("1. Ver monitoramentos")
+            print("2. Pesquisar produtos")
+            print("3. Ver lojas")
+            print("0. Sair")
+            
+            opcao = input("Escolha uma opção: ")
+            
+            if opcao == "1":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                ver_produtos()
+            elif opcao == "2":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                pesquisar_produtos()
+            elif opcao == "3":
+                os.system('cls' if os.name == 'nt' else 'clear')
+                ver_lojas()
+            elif opcao == "0":
+                print("Saindo do programa.")
+                break
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    
+
+

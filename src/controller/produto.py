@@ -63,3 +63,4 @@ class ProdutoController:
         now = datetime.now()
         formatted_date = now.strftime("%d/%m/%Y %H:%M:%S")
         return formatted_date
+    

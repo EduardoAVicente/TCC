@@ -38,6 +38,7 @@ class Database:
             return True
         except psycopg2.OperationalError as e:
             return False
+    
         
     def getProducts(self):
         try:

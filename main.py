@@ -6,7 +6,6 @@ from src.view.auxiliar import Auxiliar
 from src.view.menu import Menu
 
 if __name__ == "__main__":
-    print(len(sys.argv))
     if len(sys.argv) > 1:
         palavra = sys.argv[1].lower()
         match palavra:
