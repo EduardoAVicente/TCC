@@ -4,7 +4,7 @@ from controller.database import DatabaseController
 import re
 
 class LojaController:
-    def __init__(self, regexProduto=None, xpathProduto=None, xpathFiltro=None):
+    def __init__(self, regexProduto=None, xpathProduto=None, xpathFiltro=None,xpathPesquisa=None,xpathBotaoPesquisa=None):
         self.regexProduto = regexProduto
         self.xpathProduto = xpathProduto
         self.xpathFiltro = xpathFiltro
@@ -43,5 +43,8 @@ class LojaController:
             self.produtos.append(produto)
         
         return produto
+    
+    # def pesquisarProduto(nome):
+        
 
  

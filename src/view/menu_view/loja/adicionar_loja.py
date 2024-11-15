@@ -19,7 +19,7 @@ def adicionar_loja():
     xpath_pesquisa = input("Digite o XPATHPESQUISA (opcional): ") or "Null"
     xpath_botao_pesquisa = input("Digite o XPATHBOTAOPESQUISA (opcional): ") or "Null"
 
-    DatabaseController().sqlWrite(
+    DatabaseController().sqlWrite( #TA ERRADO
         f"INSERT INTO public.loja (site, regexproduto, xpathproduto, xpathfiltro, xpathpesquisa, xpathbotaopesquisa) "
         f"VALUES('{gerarNomeSite(site)}', {format_sql_value(regex_produto)}, {format_sql_value(xpath_produto)}, "
         f"{format_sql_value(xpath_filtro)}, {format_sql_value(xpath_pesquisa)}, {format_sql_value(xpath_botao_pesquisa)});"

@@ -21,7 +21,7 @@ class MonitoracaoController():
                             
                 regex = dataLoja[0]['regexproduto']
                 xpathProduto = dataLoja[0]['xpathproduto']
-                print(f"Site: {self.gerarNomeSite(url)} - Data: {data} - Minuto: {minuto} - Aprovado: {(data + timedelta(minutes=minuto)) <= datetime.now()}")        
+                # print(f"Site: {self.gerarNomeSite(url)} - Data: {data} - Minuto: {minuto} - Aprovado: {(data + timedelta(minutes=minuto)) <= datetime.now()}")        
                 
                 
                 
