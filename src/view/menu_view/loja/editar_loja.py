@@ -2,6 +2,11 @@ import re
 import os; 
 from controller.database import DatabaseController
 
+def format_sql_value(value):
+    if value is None or str(value).strip().lower() == "null":
+        return "NULL"
+    return f"'{value}'"
+
 def adicionar_loja():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -11,15 +16,27 @@ os.system('cls' if os.name == 'nt' else 'clear')
 
 def editar_loja(loja):
     os.system('cls' if os.name == 'nt' else 'clear')
-    print()
+    print(loja[3])
     regex_produto = input(f"Regex do produto[{loja[1]}]: ") or loja[1]
-    xpathProduto = input(f"Xpath do produto[{loja[2]}]: ") or loja[2]
-    xpathFiltro = input(f"Xpath dos filtros[{loja[3]}]: ") or loja[3]
-    xpathBarraPesquisa = input(f"Xpath da barra de pesquisa[{loja[4]}]: ") or loja[4]
-    xpathBotaoPesquisar = input(f"Xpath do botao de pesquisar[{loja[5]}]: ") or loja[5]
+    xpath_produto = input(f"Xpath do produto[{loja[2]}]: ") or loja[2]
+    xpath_filtro = input(f"Xpath dos filtros[{loja[3]}]: ") or loja[3]
+    xpath_barra_pesquisa = input(f"Xpath da barra de pesquisa[{loja[4]}]: ") or loja[4]
+    xpath_botao_pesquisar = input(f"Xpath do botao de pesquisar[{loja[5]}]: ") or loja[5]
 
     site = loja[0]
-    DatabaseController().sqlWrite(f"UPDATE public.loja SET regexproduto='{regex_produto}', xpathproduto='{xpathProduto}', xpathfiltro='{xpathFiltro}', xpathpesquisa='{xpathBarraPesquisa}', xpathbotaopesquisa='{xpathBotaoPesquisar}' WHERE site='{site}';")
+
+    sql = (
+        f"UPDATE public.loja SET "
+        f"regexproduto={format_sql_value(regex_produto)}, "
+        f"xpathproduto={format_sql_value(xpath_produto)}, "
+        f"xpathfiltro={format_sql_value(xpath_filtro)}, "
+        f"xpathpesquisa={format_sql_value(xpath_barra_pesquisa)}, "
+        f"xpathbotaopesquisa={format_sql_value(xpath_botao_pesquisar)} "
+        f"WHERE site={format_sql_value(site)};"
+    )
+    DatabaseController().sqlWrite(sql)
+    
+  
 
 def validar_url(url):
     pattern = re.compile(
