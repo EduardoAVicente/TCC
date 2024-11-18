@@ -62,33 +62,4 @@ class ScrapperController:
             browser.close()
             return html_content
         
-    def inserirDados(self, texto):
-        max_attempts = 5  # Número máximo de tentativas para inserir o texto
-        attempt = 0
-
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=self.headless)
-            page = browser.new_page()
-            page.goto(self.url, wait_until="load")
-
-            while attempt < max_attempts:
-                try:
-                    # Localiza a caixa de texto e tenta inserir o texto
-                    element = page.locator(f'xpath={self.xpath}')
-                    element.fill(texto)
-                    print("Texto inserido com sucesso.")
-                    
-                    # Se `botao` não for None, tenta localizar e clicar no botão
-                    if self.botao:
-                        botao_element = page.locator(f'xpath={self.botao}')
-                        botao_element.click()
-                        print("Botão pressionado com sucesso.")
-                    
-                    return  # Sai da função se o texto for inserido (e o botão pressionado, se aplicável)
-                except (PlaywrightTimeoutError, Exception) as e:
-                    attempt += 1
-                    print(f"Tentativa {attempt} falhou ao inserir o texto ou pressionar o botão: {e}. Tentando novamente...")
-                    time.sleep(2)  # Espera 2 segundos antes de tentar novamente
-
-            print("Não foi possível inserir o texto e pressionar o botão após 5 tentativas.")
-            browser.close()
+       

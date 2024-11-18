@@ -1,6 +1,6 @@
 from src.view.menu_view.produto.ver_produtos import ver_produtos
 from src.view.menu_view.loja.ver_lojas import ver_lojas
-from src.view.menu_view.pesquisar_produtos import pesquisar_produtos
+from src.view.menu_view.pesquisa.pesquisar_produtos import pesquisar_produtos
 import os; 
 
 

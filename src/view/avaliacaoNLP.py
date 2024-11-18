@@ -11,10 +11,10 @@ class AvaliacaoNLP:
     def main(self):    
         algoritmos = [
             ("Compare Lists", compare_lists),
-            # ("Similaridade NLTK", similaridadeNLTK),
-            # ("Smith-Waterman", smith_waterman),
-            # ("SpaCy", compare_lists_spacy),
-            # ("Word2Vec", Word2Vec)
+            ("Similaridade NLTK", similaridadeNLTK),
+            ("Smith-Waterman", smith_waterman),
+            ("SpaCy", compare_lists_spacy),
+            ("Word2Vec", Word2Vec)
         ]
         
         avaliacaoNLP = avaliacaoNLPController(algoritmos)

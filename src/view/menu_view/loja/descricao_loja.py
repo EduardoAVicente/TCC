@@ -12,6 +12,7 @@ def descricao_loja(loja):
     print(f"Xpath dos filtros: {loja[3]}")
     print(f"Xpath da barra de pesquisa: {loja[4]}")
     print(f"Xpath do botao de pesquisar: {loja[5]}")
+    print(f"xpath da lista de pesquisa: {loja[6]}")
     
     while True:
         editar = input("Deseja editar este item(S/N): ").lower()

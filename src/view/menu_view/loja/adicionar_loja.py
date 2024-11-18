@@ -18,12 +18,13 @@ def adicionar_loja():
     xpath_filtro = input("Digite o XPATHFILTRO (opcional): ") or "Null"
     xpath_pesquisa = input("Digite o XPATHPESQUISA (opcional): ") or "Null"
     xpath_botao_pesquisa = input("Digite o XPATHBOTAOPESQUISA (opcional): ") or "Null"
+    xpath_lista_pesquisa = input("Digite o xpathlistapesquisa (opcional): ") or "Null"
 
   
     DatabaseController().sqlWrite(
-        f"INSERT INTO public.loja (site, regexproduto, xpathproduto, xpathfiltro, xpathpesquisa, xpathbotaopesquisa) "
+        f"INSERT INTO public.loja (site, regexproduto, xpathproduto, xpathfiltro, xpathpesquisa, xpathbotaopesquisa,XPATHLISTAPESQUISA ) "
         f"VALUES('{gerarNomeSite(site)}', {format_sql_value(regex_produto)}, {format_sql_value(xpath_produto)}, "
-        f"{format_sql_value(xpath_filtro)}, {format_sql_value(xpath_pesquisa)}, {format_sql_value(xpath_botao_pesquisa)});"
+        f"{format_sql_value(xpath_filtro)}, {format_sql_value(xpath_pesquisa)}, {format_sql_value(xpath_botao_pesquisa)}, {format_sql_value(xpath_lista_pesquisa )});"
 )
 
 def validar_url(url):

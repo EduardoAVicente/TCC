@@ -22,6 +22,8 @@ def editar_loja(loja):
     xpath_filtro = input(f"Xpath dos filtros[{loja[3]}]: ") or loja[3]
     xpath_barra_pesquisa = input(f"Xpath da barra de pesquisa[{loja[4]}]: ") or loja[4]
     xpath_botao_pesquisar = input(f"Xpath do botao de pesquisar[{loja[5]}]: ") or loja[5]
+    xpath_lista_pesquisa = input(f"Xpath da lista de pesquisa[{loja[6]}]: ") or loja[6]
+    
 
     site = loja[0]
 
@@ -32,6 +34,7 @@ def editar_loja(loja):
         f"xpathfiltro={format_sql_value(xpath_filtro)}, "
         f"xpathpesquisa={format_sql_value(xpath_barra_pesquisa)}, "
         f"xpathbotaopesquisa={format_sql_value(xpath_botao_pesquisar)} "
+        f"XPATHLISTAPESQUISA={format_sql_value(xpath_lista_pesquisa)} "
         f"WHERE site={format_sql_value(site)};"
     )
     DatabaseController().sqlWrite(sql)
