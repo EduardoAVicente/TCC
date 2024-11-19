@@ -2,11 +2,40 @@ from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeo
 import time
 
 class ScrapperController:
-    def __init__(self, url, xpath, botao=None):
+    def __init__(self, url, xpath=None,filtro=None,xpathPesquisa=None ,botao=None, xpathBotaoPesquisa=None,xpathListaPesquisa=None):
         self.url = url
         self.xpath = xpath
         self.botao = botao
+        self.xpathPesquisa = xpathPesquisa
+        self.xpathBotaoPesquisa = xpathBotaoPesquisa
+        self.xpathListaPesquisa = xpathListaPesquisa
+        self.filtro = filtro
         self.headless = False
+        
+        
+    def getXpath(self, xpath):
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=self.headless)
+            page = browser.new_page()
+
+            try:
+                # Acessa a URL e espera carregar
+                page.goto(self.url, wait_until="load")
+                
+                # Localiza o elemento pelo XPath
+                element = page.locator(f'xpath={xpath}').first
+                
+                # Retorna o texto do elemento
+                return element.text_content(timeout=50000)
+            except PlaywrightTimeoutError:
+                print("Erro de timeout ao carregar a página.")
+                return None
+            except Exception as e:
+                print(f"Erro inesperado: {e}")
+                return None
+            finally:
+                browser.close()
 
     def get_element_value(self):
         max_attempts = 5  # Número máximo de tentativas
@@ -63,3 +92,50 @@ class ScrapperController:
             return html_content
         
        
+    def pesquisarProduto(self, texto):
+        max_attempts = 5  # Número máximo de tentativas
+        attempt = 0
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=self.headless)
+            page = browser.new_page()
+            page.goto(self.url, wait_until="load")  # Certifique-se de que `self.url` está definido corretamente
+
+            while attempt < max_attempts:
+                try:
+                    # Localiza a caixa de texto e insere o texto
+                    element = page.locator(f'xpath={self.xpathPesquisa}')
+                    element.fill(texto)
+
+                    # Se `self.xpathBotaoPesquisa` estiver definido, localiza e clica no botão
+                    if self.xpathBotaoPesquisa:
+                        botao_element = page.locator(f'xpath={self.xpathBotaoPesquisa}')
+                        botao_element.click()
+
+                    # Aguarda a página carregar após o clique
+                    page.wait_for_load_state("networkidle")  # Espera que a rede esteja ociosa
+
+                    # Captura a URL da página carregada
+                    url_atual = page.url
+
+                    # Extrai os conteúdos dos elementos localizados por `self.xpathListaPesquisa`
+                    if self.xpathListaPesquisa:
+                        conteudos = page.locator(f'xpath={self.xpathListaPesquisa}').all_inner_texts()
+                    else:
+                        conteudos = None
+
+                    # Retorna o dicionário com a URL e os conteúdos
+                    browser.close()
+                    return {
+                        "url": url_atual,
+                        "produtos": conteudos
+                    }
+
+                except Exception as e:
+                    attempt += 1
+                    print(f"Tentativa {attempt} falhou: {e}. Tentando novamente...")
+                    time.sleep(2)  # Espera 2 segundos antes de tentar novamente
+
+            print("Não foi possível realizar a operação após 5 tentativas.")
+            browser.close()
+            return None

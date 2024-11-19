@@ -50,43 +50,8 @@ class LojaController:
         
         return produto
     
-    def pesquisarProduto(self, texto):
-        max_attempts = 5  # Número máximo de tentativas
-        attempt = 0
-
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=self.headless)
-            page = browser.new_page()
-            page.goto(url, wait_until="load")
-
-            while attempt < max_attempts:
-                try:
-                    # Localiza a caixa de texto e tenta inserir o texto
-                    element = page.locator(f'xpath={self.xpath}')
-                    element.fill(texto)
-                    print("Texto inserido com sucesso.")
-
-                    # Se `self.xpathBotaoPesquisa` não for None, tenta localizar e clicar no botão
-                    if self.xpathBotaoPesquisa:
-                        botao_element = page.locator(f'xpath={self.xpathBotaoPesquisa}')
-                        botao_element.click()
-                        print("Botão pressionado com sucesso.")
-
-                    # Tenta localizar o elemento da lista de pesquisa e imprimir o valor
-                    lista_element = page.locator(f'xpath={self.xpathListaPesquisa}')
-                    valor_lista = lista_element.inner_text()  # Obtém o texto do elemento
-                    print(f"Valor encontrado: {valor_lista}")
-                    
-                    return  # Sai da função se tudo for bem-sucedido
-
-                except Exception as e:
-                    attempt += 1
-                    print(f"Tentativa {attempt} falhou: {e}. Tentando novamente...")
-                    time.sleep(2)  # Espera 2 segundos antes de tentar novamente
-
-            print("Não foi possível realizar a operação após 5 tentativas.")
-            browser.close()
-
-                
-
- 
+    def pesquisarProduto(self,url,pesquisa):
+        scrapper = ScrapperController(url, xpathPesquisa=self.xpathPesquisa, xpathBotaoPesquisa=self.xpathBotaoPesquisa, xpathListaPesquisa=self.xpathListaPesquisa)
+        return scrapper.pesquisarProduto(pesquisa)
+    
+  

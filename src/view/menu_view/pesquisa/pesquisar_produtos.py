@@ -4,7 +4,7 @@ from view.menu_view.pesquisa.resultado_pesquisa import resultado_pesquisa
 def pesquisar_produtos():
     # Obtém as lojas disponíveis para pesquisa no banco de dados
     lojasBusca = DatabaseController().sqlRead(
-        "SELECT site, xpathpesquisa, xpathbotaopesquisa FROM loja WHERE xpathpesquisa IS NOT NULL AND xpathbotaopesquisa IS NOT NULL;"
+        "SELECT site, xpathpesquisa, xpathbotaopesquisa, xpathfiltro,xpathlistapesquisa FROM loja WHERE xpathpesquisa IS NOT NULL AND xpathbotaopesquisa IS NOT NULL;"
     )
     
     if not lojasBusca:  # Verifica se não há lojas cadastradas
@@ -27,7 +27,7 @@ def pesquisar_produtos():
                 # Valida os números das lojas selecionadas
                 if all(0 < loja <= len(lojasBusca) for loja in lojasSelecionadas):
                     lojasSelecionadas = [lojasBusca[loja-1] for loja in lojasSelecionadas]  # Obtém as lojas selecionadas
-                    resultado_pesquisa(lojasSelecionadas)
+                    resultado_pesquisa(lojasSelecionadas,pesquisa)
                     
                   
                     break  # Sai do loop após a pesquisa

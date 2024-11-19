@@ -6,6 +6,7 @@ from src.view.avaliacaoNLP import AvaliacaoNLP
 from src.view.filtros import Filtros
 from src.view.menu import Menu
 from src.controller.monitoracao import MonitoracaoController
+from src.controller.scrapper import ScrapperController
 
 # def executar_monitoracao():
 #     MonitoracaoController().main()
@@ -28,6 +29,9 @@ if len(sys.argv) > 1:
             avaliacao.main()
         case "auxiliar":
             Filtros.main()
+        case "xpath":
+            if(len(sys.argv) == 4):
+                print(ScrapperController(sys.argv[2]).getXpath(sys.argv[3]))
         case _:
             print("Função invalida")
 elif len(sys.argv) == 1:
