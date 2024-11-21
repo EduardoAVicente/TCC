@@ -22,9 +22,11 @@ class ProdutoController:
 
     def getPrice(self):
         scrapper = ScrapperController(self.url, self.xpath)
+
         price = scrapper.get_element_value()
         if price:
             if(self.regex != None):
+                
                 # print("Preço(String bruta): " + price)
                 price = price.replace("\n", "").replace(",", ".")
                 price = re.sub(r'\.(?=.*\.)', '', price)
@@ -42,7 +44,8 @@ class ProdutoController:
 
                 else:
                     # Adiconar porduto no database
-                    self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, name, site) VALUES ('{self.url}', '{Produto().getName(self.url)}', '{Produto().getSite(self.url)}');")
+                    print(f"Produto {self.url} adicionado ao banco de dados com o preço {price} do site {self.gerarNomeSite(self.url)}\n\n")
+                    self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, name, site) VALUES ('{self.url}', '{Produto().getName(self.url)}', '{self.gerarNomeSite(self.url)}');")
                     self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
                     # print("Produto adicionado ao banco de dados")
                 # print("Preço: " + price)
@@ -69,3 +72,11 @@ class ProdutoController:
         formatted_date = now.strftime("%d/%m/%Y %H:%M:%S")
         return formatted_date
     
+
+    def gerarNomeSite(self,url):
+        # Expressão regular para extrair o nome do site
+        match = re.search(r'([a-zA-Z0-9-]+)(?=\.(com|org|net)|https:\/\/|www\.)', url)
+        if match:
+            nome_site = match.group(1).lower()  # Acessa o primeiro grupo e converte para minúsculas
+            return nome_site
+        return None

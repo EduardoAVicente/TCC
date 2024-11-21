@@ -33,7 +33,7 @@ def editar_loja(loja):
         f"xpathproduto={format_sql_value(xpath_produto)}, "
         f"xpathfiltro={format_sql_value(xpath_filtro)}, "
         f"xpathpesquisa={format_sql_value(xpath_barra_pesquisa)}, "
-        f"xpathbotaopesquisa={format_sql_value(xpath_botao_pesquisar)} "
+        f"xpathbotaopesquisa={format_sql_value(xpath_botao_pesquisar)}, "
         f"XPATHLISTAPESQUISA={format_sql_value(xpath_lista_pesquisa)} "
         f"WHERE site={format_sql_value(site)};"
     )

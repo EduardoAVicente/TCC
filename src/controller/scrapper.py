@@ -1,5 +1,8 @@
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
 import time
+import re
+from collections import defaultdict
+
 
 class ScrapperController:
     def __init__(self, url, xpath=None,filtro=None,xpathPesquisa=None ,botao=None, xpathBotaoPesquisa=None,xpathListaPesquisa=None):
@@ -63,16 +66,16 @@ class ScrapperController:
                 
                 except PlaywrightTimeoutError:
                     attempt += 1
-                    if not self.headless:
-                        print(f"Tentativa {attempt} falhou devido ao timeout. Tentando novamente...")
+                    # if not self.headless:
+                        # print(f"Tentativa {attempt} falhou devido ao timeout. Tentando novamente...")
                     time.sleep(2)  # Espera 2 segundos antes de tentar novamente
                     page.reload(wait_until="domcontentloaded", timeout=60000)
 
                 
                 except Exception as e:
                     attempt += 1
-                    if not self.headless:
-                        print(f"Tentativa {attempt} falhou com erro: {e}. Tentando novamente...")
+                    # if not self.headless:
+                        # print(f"Tentativa {attempt} falhou com erro: {e}. Tentando novamente...")
                     time.sleep(2)
                     page.reload(wait_until="domcontentloaded", timeout=60000)
 
@@ -105,6 +108,7 @@ class ScrapperController:
                 try:
                     # Localiza a caixa de texto e insere o texto
                     element = page.locator(f'xpath={self.xpathPesquisa}')
+                    
                     element.fill(texto)
 
                     # Se `self.xpathBotaoPesquisa` estiver definido, localiza e clica no botão
@@ -121,6 +125,7 @@ class ScrapperController:
                     # Extrai os conteúdos dos elementos localizados por `self.xpathListaPesquisa`
                     if self.xpathListaPesquisa:
                         conteudos = page.locator(f'xpath={self.xpathListaPesquisa}').all_inner_texts()
+                        # print(conteudos)
                     else:
                         conteudos = None
 
@@ -133,9 +138,66 @@ class ScrapperController:
 
                 except Exception as e:
                     attempt += 1
-                    print(f"Tentativa {attempt} falhou: {e}. Tentando novamente...")
+                    # print(f"Tentativa {attempt} falhou: {e}. Tentando novamente...")
                     time.sleep(2)  # Espera 2 segundos antes de tentar novamente
 
-            print("Não foi possível realizar a operação após 5 tentativas.")
+            # print("Não foi possível realizar a operação após 5 tentativas.")
             browser.close()
             return None
+
+
+    def get_link(self,xpath, url):
+        with sync_playwright() as p:
+        # Inicia o navegador
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            
+            # Acessa a URL
+            page.goto(url)
+            
+            # Localiza os elementos usando o XPath
+            elements = page.locator(xpath)
+            
+            # Coleta os links encontrados e imprime os elementos
+            links = []
+            
+   
+            
+            links = self.getHREF(elements.inner_html())
+            # Fecha o navegador
+            browser.close()
+            
+            
+            # links = self.getHREF(element.inner_html())
+            
+            # Retorna None se não houver links encontrados
+            return links if links else None
+        
+    def getHREF(self,html_content):
+        # Padrão para capturar os valores do atributo href
+        pattern = r'href=["\'](https://.*?)["\']'
+
+        
+        # Encontrar todos os links usando a expressão regular
+        links = re.findall(pattern, html_content)
+        
+        links = self.maior_prefixo_comum(links)
+        
+        return links
+    
+    def maior_prefixo_comum(self,lista_strings):
+        prefixos = defaultdict(int)  # Dicionário para contar a frequência dos prefixos
+
+        # Para cada string, vamos tentar todos os seus prefixos
+        for string in lista_strings:
+            for i in range(1, len(string) + 1):
+                prefixo = string[:i]
+                prefixos[prefixo] += 1
+
+        # Encontrar o prefixo que mais aparece
+        prefixo_comum = max(prefixos, key=prefixos.get)
+
+        # Filtrar as strings que começam com o prefixo mais comum
+        resultado = [s for s in lista_strings if s.startswith(prefixo_comum)]
+
+        return resultado

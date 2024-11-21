@@ -23,6 +23,10 @@ class LojaController:
     def atualizaProdutos(self):
         for produto in self.produtos:
             produto.getPrice()
+            
+    def atualizaProdutosNoDB(self,url):
+        for produto in self.produtos:
+            produto.getPrice()
 
     def is_valid(item):
         return all(char.isalnum() or char.isspace() for char in item)
@@ -52,6 +56,15 @@ class LojaController:
     
     def pesquisarProduto(self,url,pesquisa):
         scrapper = ScrapperController(url, xpathPesquisa=self.xpathPesquisa, xpathBotaoPesquisa=self.xpathBotaoPesquisa, xpathListaPesquisa=self.xpathListaPesquisa)
-        return scrapper.pesquisarProduto(pesquisa)
+        data = scrapper.pesquisarProduto(pesquisa)
+        if data['url']:
+            links = scrapper.get_link(self.xpathListaPesquisa,data['url'])
+        
+            if links:
+                for link in links:
+                    self.addProduto(link)
+                for produto in self.produtos:
+                    produto.getPrice()
+            return data
+        
     
-  

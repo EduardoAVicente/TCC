@@ -4,7 +4,7 @@ from view.menu_view.pesquisa.resultado_pesquisa import resultado_pesquisa
 def pesquisar_produtos():
     # Obtém as lojas disponíveis para pesquisa no banco de dados
     lojasBusca = DatabaseController().sqlRead(
-        "SELECT site, xpathpesquisa, xpathbotaopesquisa, xpathfiltro,xpathlistapesquisa FROM loja WHERE xpathpesquisa IS NOT NULL AND xpathbotaopesquisa IS NOT NULL;"
+        "SELECT regexproduto,site, URL,xpathproduto,xpathpesquisa, xpathbotaopesquisa, xpathfiltro,xpathlistapesquisa FROM loja WHERE URL IS NOT NULL AND xpathproduto IS NOT NULL AND regexproduto IS NOT NULL AND xpathpesquisa IS NOT NULL AND xpathlistapesquisa IS NOT NULL AND xpathbotaopesquisa IS NOT NULL;"
     )
     
     if not lojasBusca:  # Verifica se não há lojas cadastradas

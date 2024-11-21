@@ -1,18 +1,18 @@
 from controller.loja import LojaController
 
 def resultado_pesquisa(lojas, pesquisa):
-    # for l in lojas:
-    #     print(l)
-    
-        # if url['url']:
-            #     filtro = loja.getFiltros(url['url'])
-            #     print(filtro)
+    for l in lojas:
+        # print(l)
+        loja = LojaController(regexProduto=l['regexproduto'],xpathProduto=l['xpathproduto'],xpathFiltro=l['xpathfiltro'],xpathPesquisa=l['xpathpesquisa'], xpathBotaoPesquisa=l['xpathbotaopesquisa'],xpathListaPesquisa=l['xpathlistapesquisa'])
+        busca = loja.pesquisarProduto(l['url'],pesquisa)
         
+        # print(busca['url'])
         
-        loja = LojaController(xpathFiltro=l['xpathfiltro'],xpathPesquisa=l['xpathpesquisa'], xpathBotaoPesquisa=l['xpathbotaopesquisa'],xpathListaPesquisa=l['xpathlistapesquisa'])
-        busca = loja.pesquisarProduto('https://www.mercadolivre.com.br/',pesquisa)
+        # print()
         
-        print(busca['produtos'])
+        # if busca['url']:
+        #     filtro = loja.getFiltros(busca['url'])
+        #     print(filtro)
         
         
  
