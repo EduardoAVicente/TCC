@@ -30,18 +30,23 @@ class LojaController:
 
     def is_valid(item):
         return all(char.isalnum() or char.isspace() for char in item)
+    
+    def TratamentoFiltros(self, filtro):
+        filtro = re.sub(r'\(.*?\)', '  ', filtro)
+        filtro = filtro.split('  ')
+        # filtro = filtro.replace('\n','')
+        filtro = list(filter(None, filtro))
+        filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
+        return filtro
+        
 
 
     def getFiltros(self, url):
         scrapper = ScrapperController(url, self.xpathFiltro)
         filtro = scrapper.get_element_value()
         if filtro == None:
-            return None
-        filtro = re.sub(r'\(.*?\)', '  ', filtro)
-        filtro = filtro.split('  ')
-        # filtro = filtro.replace('\n','')
-        filtro = list(filter(None, filtro))
-        filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
+            return self.TratamentoFiltros(filtro)
+        
         return filtro
     
     def addProduto(self, url):
