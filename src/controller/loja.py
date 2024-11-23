@@ -32,11 +32,11 @@ class LojaController:
         return all(char.isalnum() or char.isspace() for char in item)
     
     def TratamentoFiltros(self, filtro):
-        # filtro = re.sub(r'\(.*?\)', '  ', filtro)
-        # filtro = filtro.split('  ')
-        # # filtro = filtro.replace('\n','')
-        # filtro = list(filter(None, filtro))
-        # filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
+        filtro = re.sub(r'\(.*?\)', '  ', filtro)
+        filtro = filtro.split('  ')
+        # filtro = filtro.replace('\n','')
+        filtro = list(filter(None, filtro))
+        filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
         return filtro
         
 
