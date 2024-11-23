@@ -110,6 +110,8 @@ class ScrapperController:
                     element = page.locator(f'xpath={self.xpathPesquisa}')
                     
                     element.fill(texto)
+                    
+                    time.sleep(2)
 
                     # Se `self.xpathBotaoPesquisa` estiver definido, localiza e clica no botão
                     if self.xpathBotaoPesquisa:
@@ -117,24 +119,25 @@ class ScrapperController:
                         botao_element.click()
 
                     # Aguarda a página carregar após o clique
-                    page.wait_for_load_state("networkidle")  # Espera que a rede esteja ociosa
-
+                    page.locator(self.xpathListaPesquisa).wait_for(state="visible", timeout=5000)  # Aguarda elemento aparecer
                     # Captura a URL da página carregada
                     url_atual = page.url
 
                     # Extrai os conteúdos dos elementos localizados por `self.xpathListaPesquisa`
-                    if self.xpathListaPesquisa:
-                        conteudos = page.locator(f'xpath={self.xpathListaPesquisa}').all_inner_texts()
-                        # print(conteudos)
-                    else:
-                        conteudos = None
+                    # if self.xpathListaPesquisa:
+                    #     conteudos = page.locator(f'xpath={self.xpathListaPesquisa}').all_inner_texts()
+                    #     # print(conteudos)
+                    # else:
+                    #     conteudos = None
 
                     # Retorna o dicionário com a URL e os conteúdos
                     browser.close()
-                    return {
-                        "url": url_atual,
-                        "produtos": conteudos
-                    }
+                    # return {
+                    #     "url": url_atual,
+                    #     "produtos": conteudos
+                    # }
+                    
+                    return url_atual
 
                 except Exception as e:
                     attempt += 1
@@ -146,32 +149,47 @@ class ScrapperController:
             return None
 
 
-    def get_link(self,xpath, url):
+    def get_link(self, xpath, url):
         with sync_playwright() as p:
-        # Inicia o navegador
-            browser = p.chromium.launch(headless=True)
+            # Inicia o navegador
+            browser = p.chromium.launch(headless=self.headless)
             page = browser.new_page()
-            
-            # Acessa a URL
-            page.goto(url)
-            
-            # Localiza os elementos usando o XPath
-            elements = page.locator(xpath)
-            
-            # Coleta os links encontrados e imprime os elementos
-            links = []
-            
-   
-            
-            links = self.getHREF(elements.inner_html())
-            # Fecha o navegador
-            browser.close()
-            
-            
-            # links = self.getHREF(element.inner_html())
-            
-            # Retorna None se não houver links encontrados
-            return links if links else None
+            try:
+                # Acessa a URL
+                page.goto(url, wait_until="load")
+
+                # Localiza os elementos usando o XPath
+                elements = page.locator(xpath)
+
+                # Aguarda o elemento aparecer (máximo de 10 segundos)
+                elements.wait_for(timeout=10000)
+
+                # Coleta os links encontrados
+                links = []
+                # if elements.count() > 0:  # Garante que há elementos encontrados
+                #     for i in range(elements.count()):
+                #         print(i)
+                #         html_content = elements.nth(i).inner_html(timeout=5000)
+                #         links.extend(self.getHREF(html_content))  # Adiciona links encontrados
+                #         print("a\n")
+                #         print(links)
+                if elements:  # Garante que há elementos encontrados
+                        print(elements)
+                        html_content = elements.nth(i).inner_html(timeout=5000)
+                        links.extend(self.getHREF(html_content))  # Adiciona links encontrados
+                        print("a\n")
+                        print(links)
+                
+                return links if links else None
+
+            except PlaywrightTimeoutError:
+                return None
+            except Exception as e:
+                print(f"Erro inesperado: {e}")
+                return None
+            finally:
+                browser.close()
+
         
     def getHREF(self,html_content):
         # Padrão para capturar os valores do atributo href
@@ -195,8 +213,10 @@ class ScrapperController:
                 prefixos[prefixo] += 1
 
         # Encontrar o prefixo que mais aparece
-        prefixo_comum = max(prefixos, key=prefixos.get)
-
+        if prefixos:
+            prefixo_comum = max(prefixos, key=prefixos.get)
+        else:
+            return None
         # Filtrar as strings que começam com o prefixo mais comum
         resultado = [s for s in lista_strings if s.startswith(prefixo_comum)]
 

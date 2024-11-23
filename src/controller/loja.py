@@ -56,10 +56,11 @@ class LojaController:
     
     def pesquisarProduto(self,url,pesquisa):
         scrapper = ScrapperController(url, xpathPesquisa=self.xpathPesquisa, xpathBotaoPesquisa=self.xpathBotaoPesquisa, xpathListaPesquisa=self.xpathListaPesquisa)
-        data = scrapper.pesquisarProduto(pesquisa)
-        if data['url']:
-            links = scrapper.get_link(self.xpathListaPesquisa,data['url'])
-        
+        # data = scrapper.pesquisarProduto(pesquisa)
+        data = 'https://www.magazineluiza.com.br/busca/celular/'
+        if data:
+            links = scrapper.get_link(self.xpathListaPesquisa,data)
+            # print("\n\n\n\n\n\n\n"+str(links)+'\n\n\n\n\n\n\n')
             if links:
                 for link in links:
                     self.addProduto(link)
