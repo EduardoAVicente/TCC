@@ -32,11 +32,11 @@ class LojaController:
         return all(char.isalnum() or char.isspace() for char in item)
     
     def TratamentoFiltros(self, filtro):
-        filtro = re.sub(r'\(.*?\)', '  ', filtro)
-        filtro = filtro.split('  ')
-        # filtro = filtro.replace('\n','')
-        filtro = list(filter(None, filtro))
-        filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
+        # filtro = re.sub(r'\(.*?\)', '  ', filtro)
+        # filtro = filtro.split('  ')
+        # # filtro = filtro.replace('\n','')
+        # filtro = list(filter(None, filtro))
+        # filtro = [item.replace('\n', '') for item in filtro if any(char.isalpha() for char in item)]
         return filtro
         
 
@@ -45,10 +45,9 @@ class LojaController:
         scrapper = ScrapperController(url, self.xpathFiltro)
         filtro = scrapper.get_element_value()
         if filtro == None:
-            return self.TratamentoFiltros(filtro)
-        
-        return filtro
-    
+            return None
+        return self.TratamentoFiltros(filtro)
+            
     def addProduto(self, url):
         if(self.regexProduto != None):
             produto = ProdutoController(self.regexProduto, self.xpathProduto, url)
@@ -62,8 +61,8 @@ class LojaController:
     def pesquisarProduto(self,url,pesquisa):
         scrapper = ScrapperController(url, xpathPesquisa=self.xpathPesquisa, xpathBotaoPesquisa=self.xpathBotaoPesquisa, xpathListaPesquisa=self.xpathListaPesquisa)
         # data = scrapper.pesquisarProduto(pesquisa)
-        # data = 'https://www.magazineluiza.com.br/busca/celular/'
-        data = 'https://lista.mercadolivre.com.br/celular#D[A:celular]'
+        data = 'https://www.magazineluiza.com.br/busca/celular/'
+        # data = 'https://lista.mercadolivre.com.br/celular#D[A:celular]'
         if data:
             print(self.getFiltros(data))
             links = scrapper.get_link(self.xpathListaPesquisa,data)
