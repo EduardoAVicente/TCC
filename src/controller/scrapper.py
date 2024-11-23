@@ -174,11 +174,8 @@ class ScrapperController:
                 #         print("a\n")
                 #         print(links)
                 if elements:  # Garante que há elementos encontrados
-                        print(elements)
-                        html_content = elements.nth(i).inner_html(timeout=5000)
-                        links.extend(self.getHREF(html_content))  # Adiciona links encontrados
-                        print("a\n")
-                        print(links)
+                   links = self.getHREF(elements.inner_html())
+                        
                 
                 return links if links else None
 
@@ -191,17 +188,22 @@ class ScrapperController:
                 browser.close()
 
         
-    def getHREF(self,html_content):
-        # Padrão para capturar os valores do atributo href
-        pattern = r'href=["\'](https://.*?)["\']'
-
+    def getHREF(self, html_content):
+        # Padrão para capturar os valores do atributo href com https:// ou /
+        pattern = r'href=["\'](https://.*?|/.*?)[\'"]'
         
         # Encontrar todos os links usando a expressão regular
         links = re.findall(pattern, html_content)
         
-        links = self.maior_prefixo_comum(links)
+        # Adicionar self.url aos links relativos
+        links = [self.url + link if link.startswith('/') else link for link in links]
         
+        # Aplicar o método maior_prefixo_comum, caso necessário
+        links = self.maior_prefixo_comum(links)
+        print(links)
         return links
+
+
     
     def maior_prefixo_comum(self,lista_strings):
         prefixos = defaultdict(int)  # Dicionário para contar a frequência dos prefixos

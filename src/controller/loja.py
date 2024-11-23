@@ -4,7 +4,7 @@ from controller.database import DatabaseController
 import re
 import time
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
-
+from controller.nlp_tools.smith_waterman import smith_waterman
 
 class LojaController:
     def __init__(self, regexProduto=None, xpathProduto=None, xpathFiltro=None,xpathPesquisa=None,xpathBotaoPesquisa=None,xpathListaPesquisa=None):
@@ -57,10 +57,11 @@ class LojaController:
     def pesquisarProduto(self,url,pesquisa):
         scrapper = ScrapperController(url, xpathPesquisa=self.xpathPesquisa, xpathBotaoPesquisa=self.xpathBotaoPesquisa, xpathListaPesquisa=self.xpathListaPesquisa)
         # data = scrapper.pesquisarProduto(pesquisa)
-        data = 'https://www.magazineluiza.com.br/busca/celular/'
+        # data = 'https://www.magazineluiza.com.br/busca/celular/'
+        data = 'https://lista.mercadolivre.com.br/celular#D[A:celular]'
         if data:
+            print(self.getFiltros(data))
             links = scrapper.get_link(self.xpathListaPesquisa,data)
-            # print("\n\n\n\n\n\n\n"+str(links)+'\n\n\n\n\n\n\n')
             if links:
                 for link in links:
                     self.addProduto(link)
