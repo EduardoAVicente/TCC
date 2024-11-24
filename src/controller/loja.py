@@ -60,17 +60,8 @@ class LojaController:
     
     def pesquisarProduto(self,url,pesquisa):
         scrapper = ScrapperController(url, xpathPesquisa=self.xpathPesquisa, xpathBotaoPesquisa=self.xpathBotaoPesquisa, xpathListaPesquisa=self.xpathListaPesquisa)
-        # data = scrapper.pesquisarProduto(pesquisa)
-        data = 'https://www.magazineluiza.com.br/busca/celular/'
-        # data = 'https://lista.mercadolivre.com.br/celular#D[A:celular]'
-        if data:
-            print(self.getFiltros(data))
-            links = scrapper.get_link(self.xpathListaPesquisa,data)
-            if links:
-                for link in links:
-                    self.addProduto(link)
-                for produto in self.produtos:
-                    produto.getPrice()
-            return data
+        data = scrapper.pesquisarProduto(pesquisa)
+        return data
+        
         
     

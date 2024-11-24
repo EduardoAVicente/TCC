@@ -5,7 +5,7 @@ from collections import defaultdict
 
 
 class ScrapperController:
-    def __init__(self, url, xpath=None,filtro=None,xpathPesquisa=None ,botao=None, xpathBotaoPesquisa=None,xpathListaPesquisa=None):
+    def __init__(self, url=None, xpath=None,filtro=None,xpathPesquisa=None ,botao=None, xpathBotaoPesquisa=None,xpathListaPesquisa=None):
         self.url = url
         self.xpath = xpath
         self.botao = botao
@@ -41,7 +41,7 @@ class ScrapperController:
                 browser.close()
 
     def get_element_value(self):
-        max_attempts = 5  # Número máximo de tentativas
+        max_attempts = 1  # Número máximo de tentativas
         attempt = 0
 
         with sync_playwright() as p:
@@ -174,7 +174,7 @@ class ScrapperController:
                 #         print("a\n")
                 #         print(links)
                 if elements:  # Garante que há elementos encontrados
-                   links = self.getHREF(elements.inner_html())
+                    links = self.getHREF(elements.inner_html())
                         
                 
                 return links if links else None
@@ -196,11 +196,12 @@ class ScrapperController:
         links = re.findall(pattern, html_content)
         
         # Adicionar self.url aos links relativos
+        if self.url is None:
+            raise ValueError("self.url não pode ser None")
         links = [self.url + link if link.startswith('/') else link for link in links]
-        
+                
         # Aplicar o método maior_prefixo_comum, caso necessário
         links = self.maior_prefixo_comum(links)
-        print(links)
         return links
 
 

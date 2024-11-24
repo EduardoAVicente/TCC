@@ -44,7 +44,8 @@ class ProdutoController:
 
                 else:
                     # Adiconar porduto no database
-                    print(f"Produto {self.url} adicionado ao banco de dados com o preço {price} do site {self.gerarNomeSite(self.url)}\n\n")
+                    truncated_url = (self.url[:30] + '...') if len(self.url) > 30 else self.url
+                    print(f"Produto {truncated_url} adicionado ao banco de dados com o preço {price} do site {self.gerarNomeSite(self.url)}\n\n")
                     self.database.sqlWrite(f"INSERT INTO PRODUCT (URL, name, site) VALUES ('{self.url}', '{Produto().getName(self.url)}', '{self.gerarNomeSite(self.url)}');")
                     self.database.sqlWrite(f"INSERT INTO PRICE (URL, DATE, PRICE) VALUES ('{self.url}', TO_TIMESTAMP('{self.getDate()}', 'DD/MM/YYYY HH24:MI:SS'), {price});")
                     # print("Produto adicionado ao banco de dados")
