@@ -7,7 +7,9 @@ from src.view.filtros import Filtros
 from src.view.menu import Menu
 from src.controller.monitoracao import MonitoracaoController
 from src.controller.scrapper import ScrapperController
-from src.view.grafico import gerarGrafico
+from src.view.simulacaoSmithWaterman import simulacaoSmithWaterman
+# from src.view.grafico import gerarGrafico
+
 
 # def executar_monitoracao():
 #     MonitoracaoController().main()
@@ -33,8 +35,10 @@ if len(sys.argv) > 1:
         case "xpath":
             if(len(sys.argv) == 4):
                 print(ScrapperController(sys.argv[2]).getXpath(sys.argv[3]))
-        case "grafico":
-            gerarGrafico()
+        # case "grafico":
+        #     gerarGrafico()
+        case "smithwaterman":
+            simulacaoSmithWaterman()
         case _:
             print("Função invalida")
 elif len(sys.argv) == 1:
